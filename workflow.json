@@ -1,0 +1,333 @@
+{
+  "name": "Generate German B2B leads from Gelbe Seiten with Apify & Impressum CEO Enrichment",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## 🚀 Triggers\nRun this workflow manually on-demand anytime, or enable the schedule trigger to scrape new leads automatically every week.",
+        "height": 260,
+        "width": 260,
+        "color": 4
+      },
+      "id": "sticky-1",
+      "name": "Sticky Note - Triggers",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        160,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## ⚙️ Search Configuration\nSet your target German city (e.g. Berlin, München), industry keyword (e.g. IT-Beratung, Steuerberater), and your Apify API Token.",
+        "height": 260,
+        "width": 240,
+        "color": 5
+      },
+      "id": "sticky-2",
+      "name": "Sticky Note - Config",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        440,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 🇩🇪 Step 1: Directory Scrape\nCalls Apify Gelbe Seiten Scraper to pull verified German businesses, direct phones, and clean website domains.",
+        "height": 260,
+        "width": 260,
+        "color": 6
+      },
+      "id": "sticky-3",
+      "name": "Sticky Note - Step 1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        700,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 👔 Step 2: Legal CEO Extraction\nVisits each company website's /impressum to legally extract the Managing Director (Geschäftsführer) name, direct email, and VAT ID under § 5 DDG.",
+        "height": 260,
+        "width": 280,
+        "color": 7
+      },
+      "id": "sticky-4",
+      "name": "Sticky Note - Step 2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 📊 Final Output\nCombines directory contacts with verified executive names into normalized, CRM-ready lead records.",
+        "height": 260,
+        "width": 220,
+        "color": 2
+      },
+      "id": "sticky-5",
+      "name": "Sticky Note - Output",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        140
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "0",
+      "name": "Manual Trigger (Run on Demand)",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        200,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "1",
+      "name": "Schedule (Weekly Lead Batch)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        200,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "param1",
+              "name": "search_keyword",
+              "value": "IT-Beratung",
+              "type": "string"
+            },
+            {
+              "id": "param2",
+              "name": "city",
+              "value": "Berlin",
+              "type": "string"
+            },
+            {
+              "id": "param3",
+              "name": "max_leads",
+              "value": 50,
+              "type": "number"
+            },
+            {
+              "id": "param4",
+              "name": "apify_token",
+              "value": "YOUR_APIFY_API_TOKEN",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "2",
+      "name": "Set Search Criteria",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        270
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/dach_leads~germany-gelbe-seiten-scraper-fast-b2b-lead-extractor/run-sync-get-dataset-items",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "={{ $json.apify_token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={\n  \"industry\": \"{{ $json.search_keyword }}\",\n  \"city\": \"{{ $json.city }}\",\n  \"max_leads\": {{ $json.max_leads }}\n}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "3",
+      "name": "Step 1: Scrape Gelbe Seiten Leads",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        740,
+        270
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond1",
+              "leftValue": "={{ $json.website }}",
+              "rightValue": "N/A",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "4",
+      "name": "Filter: Has Official Website?",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        980,
+        270
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/dach_leads~germany-b2b-lead-impressum-scraper/run-sync-get-dataset-items",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "={{ $('Set Search Criteria').item.json.apify_token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={\n  \"website\": \"{{ $json.website }}\",\n  \"company_name\": \"{{ $json.company_name }}\"\n}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "5",
+      "name": "Step 2: Auto-Enrich CEO via Impressum",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1220,
+        270
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const directoryItem = $('Filter: Has Official Website?').item.json;\nconst impressumItem = $input.item.json;\n\nreturn {\n  json: {\n    \"Company Name\": directoryItem.company_name || impressumItem.company_name || \"N/A\",\n    \"Industry / Category\": directoryItem.industry_category || \"N/A\",\n    \"Managing Director (CEO / Inhaber)\": impressumItem.managing_directors || impressumItem.ceo_name || \"N/A\",\n    \"Direct Legal Email\": impressumItem.email || directoryItem.email || \"N/A\",\n    \"Direct Telephone\": directoryItem.direct_phone || impressumItem.phone || \"N/A\",\n    \"Complete Street Address\": directoryItem.address || impressumItem.street_address || \"N/A\",\n    \"City\": directoryItem.city || \"N/A\",\n    \"Official Website\": directoryItem.website || \"N/A\",\n    \"German VAT ID (USt-IdNr)\": impressumItem.vat_id || \"N/A\",\n    \"Handelsregister (HRB)\": impressumItem.commercial_register || \"N/A\",\n    \"Review Rating\": directoryItem.rating || \"N/A\",\n    \"Extracted At\": new Date().toISOString()\n  }\n};"
+      },
+      "id": "6",
+      "name": "Format Final Lead Record",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1520,
+        270
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger (Run on Demand)": {
+      "main": [
+        [
+          {
+            "node": "Set Search Criteria",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule (Weekly Lead Batch)": {
+      "main": [
+        [
+          {
+            "node": "Set Search Criteria",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Search Criteria": {
+      "main": [
+        [
+          {
+            "node": "Step 1: Scrape Gelbe Seiten Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Step 1: Scrape Gelbe Seiten Leads": {
+      "main": [
+        [
+          {
+            "node": "Filter: Has Official Website?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: Has Official Website?": {
+      "main": [
+        [
+          {
+            "node": "Step 2: Auto-Enrich CEO via Impressum",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Step 2: Auto-Enrich CEO via Impressum": {
+      "main": [
+        [
+          {
+            "node": "Format Final Lead Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
