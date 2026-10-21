@@ -7,6 +7,8 @@
 
 An end-to-end, production-grade **n8n automation pipeline** that scrapes verified German businesses from major directories and automatically enriches them with **Managing Director (*Geschäftsführer*) names, direct CEO emails, and physical corporate registrations** extracted legally from German company Impressum pages under **§ 5 DDG (German Digital Services Act)**.
 
+![n8n German B2B Lead Machine Workflow Canvas](./n8n-canvas.png)
+
 ---
 
 ## 🎯 What Problem Does This Solve?
@@ -129,6 +131,20 @@ Each lead output by this workflow includes both directory contact details and le
 ## ⚖️ Legal & Compliance Note (German DDG / GDPR)
 
 Under German federal law (**§ 5 Digitale-Dienste-Gesetz - DDG**, formerly § 5 TMG), every commercial website operated in Germany is legally mandated to maintain a publicly accessible *Impressum* disclosing the registered company entity, Managing Directors (*Vertretungsberechtigte Personen / Geschäftsführer*), and direct contact information. Extracting publicly mandated Impressum data for B2B identification is fully standard across DACH sales intelligence workflows.
+
+---
+
+## 🇩🇪 Zusammenfassung auf Deutsch (B2B Lead Pipeline für Agenturen & Vertrieb)
+
+Automatisierte Lead-Generierung und Kaltakquise-Pipeline für Deutschland, Österreich und die Schweiz (DACH):
+
+* **B2B Leads Deutschland automatisieren:** Finden Sie verifizierte Firmenprofile, Handwerker, Kanzleien, Ärzte und Dienstleister nach Branche und Stadt (*Berlin, München, Hamburg, Köln, Frankfurt*).
+* **Gelbe Seiten, Das Telefonbuch & Das Örtliche Scraper:** Automatischer Datenexport von Telefonnummern, Postanschriften (PLZ & Straße) und Webseiten ohne manuelle Recherche.
+* **Impressum Scraper & Geschäftsführer Email finden:** DSGVO-konforme Extraktion von vertretungsberechtigten Geschäftsführern (*Inhaber, Vorstand*) und direkten Unternehmens-E-Mails direkt aus dem gesetzlich vorgeschriebenen Impressum (§ 5 DDG / TMG).
+* **1-Klick n8n Vorlage:** Vollständig kompatibel mit n8n Cloud und Self-Hosted (Docker). Native HTTP-Request-Nodes ohne fremde Community-Node-Abhängigkeiten. Direkter Export nach Google Sheets, HubSpot oder Airtable.
+
+### Relevante Suchbegriffe & Keywords (SEO):
+`Impressum Scraper n8n` • `B2B Leads Deutschland automatisieren` • `Geschäftsführer Email finden` • `Gelbe Seiten Scraper n8n` • `Das Telefonbuch Leads extrahieren` • `Das Örtliche Scraper` • `Kaltakquise DACH Region` • `Lead Generierung Agentur n8n` • `Handwerker Leads Deutschland` • `Apify n8n Workflow Template`
 
 ---
 
