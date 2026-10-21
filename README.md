@@ -99,8 +99,9 @@ This workflow is pre-integrated with the top-ranked German B2B scrapers on the A
 | **Actor #2** ⚡ | [**Germany Gelbe Seiten Scraper**](https://apify.com/dach_leads/germany-gelbe-seiten-scraper-fast-b2b-lead-extractor) | **Rank #2 Worldwide** (`gelbe seiten`) | Scrapes 4M+ German businesses from Germany's official Yellow Pages. |
 | **Actor #3** 📍 | [**Germany Das Örtliche Scraper**](https://apify.com/dach_leads/germany-dasoertliche-scraper) | Published on Store | High-speed extractor for regional trades, medical practices, and local service providers. |
 | **Actor #4** 📞 | [**Germany Das Telefonbuch Scraper**](https://apify.com/dach_leads/germany-dastelefonbuch-scraper) | **Rank #7 Worldwide** (`dastelefonbuch`) | Germany's largest national telephone registry with over 30M+ verified telecommunications records. |
+| **Actor #5** 🇦🇹 | [**Austria Herold.at Scraper**](https://apify.com/dach_leads/austria-herold-scraper) | **Rank #2 Worldwide** (`austria b2b`) | Scrapes 400k+ Austrian businesses from Austria's #1 Yellow Pages directory with direct phone & email. |
 
-> 💡 **Tip:** To switch the upstream discovery engine from Gelbe Seiten to Das Telefonbuch or Das Örtliche, simply update the Actor URL inside the **Step 1: Scrape Directory Leads** HTTP Request node.
+> 💡 **Tip:** To switch the upstream discovery engine from Gelbe Seiten to Das Telefonbuch, Das Örtliche, or **Austria Herold.at**, simply update the Actor URL inside the **Step 1: Scrape Directory Leads** HTTP Request node.
 
 ---
 
